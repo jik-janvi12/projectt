@@ -62,3 +62,42 @@ form input{
     color:black;
 }
 
+
+/* //////// */
+*{
+  list-style: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+.section{
+  width: 100%;
+  min-height: 400px;
+  position: relative;
+  padding: 80px 0px 0px 0;
+  text-align: center;
+  align-items: center;
+  background: url(https://bootstrapmade.com/demo/templates/FlexStart/assets/img/hero-bg.png) top center no-repeat;
+  background-size: cover;
+}
+.section1{
+   padding:100px 0 ;
+}
+.card{
+  background-color: #ffffff;
+  color: #444444;
+  box-shadow: 0px 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  text-align: center;
+  height: 100%;
+}
+.dashboard{
+  background-color: #eef7fd;
+}
+.section2{
+  padding: 70px 0 100px 0;
+  /* background-color: #4154f1; */
+}
+.de{
+  color:#124256;
+}

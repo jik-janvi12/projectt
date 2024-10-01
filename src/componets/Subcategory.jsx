@@ -56,32 +56,32 @@ const Subcategory = () => {
     setOpen(false);
   };
   // api colling
-  const [searchValues , setsearchValues] = useState([])
+  const [searchValues, setsearchValues] = useState([])
   const [catagory, setcatagory] = useState([])
-  const [editId , setEditId] = useState(null) 
+  const [editId, setEditId] = useState(null)
   const [initialvalues, setInitialValues] = useState({
     subCatagoryname: '',
     catagoryID: ''
   })
-  const [data , setData] = useState([])
+  const [data, setData] = useState([])
   const token = localStorage.getItem('token')
-  const handleData = (values, {resetForm}) => {
+  const handleData = (values, { resetForm }) => {
     console.log(values);
-    if (editId !== null)  {
-      axios.patch(`https://interviewhub-3ro7.onrender.com/subcatagory/${editId}`,values,{
-        headers : {
-          Authorization : token
+    if (editId !== null) {
+      axios.patch(`https://interviewhub-3ro7.onrender.com/subcatagory/${editId}`, values, {
+        headers: {
+          Authorization: token
         }
       })
-      .then((res) =>{
-        console.log(res);
-        Apidata()
-      })
-      .catch((error) =>{
-        console.log(error);
-      })
+        .then((res) => {
+          console.log(res);
+          Apidata()
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     }
-    else{
+    else {
       axios.post('https://interviewhub-3ro7.onrender.com/subcatagory/create', values, {
         headers: {
           Authorization: token
@@ -94,11 +94,11 @@ const Subcategory = () => {
         })
         .catch((error) => {
           console.log(error);
-        }) 
-       }
-       resetForm()
-       setEditId(null)
+        })
     }
+    resetForm()
+    setEditId(null)
+  }
   //  catagory  get api
   useEffect(() => {
     Dataview()
@@ -116,7 +116,7 @@ const Subcategory = () => {
         // setcatagory(res.data.data)
         const catadata = res.data.data.filter((item) => item.status === 'on')
         setcatagory(catadata)
-        
+
       })
       .catch((error) => {
         console.log(error);
@@ -124,98 +124,96 @@ const Subcategory = () => {
   }
   // Subcategory get api
   function Apidata() {
-    axios.get('https://interviewhub-3ro7.onrender.com/subcatagory/',{
-      headers: {
-        Authorization: token
-      }
-    })
-    .then((res) => {
-      console.log(res.data);
-      setData(res.data.data)
-      const data = res.data.data
-      console.log("=====",data.length);
-      localStorage.setItem("Subcate",data.length)
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-  }
-  // delete api coliing
-  const deletedata =(id) =>{
-    console.log(id);
-    axios.delete('https://interviewhub-3ro7.onrender.com/subcatagory/'+id ,{
-      headers : {
-        Authorization : token
-      }
-    })
-    .then((res) =>{
-      console.log(res);
-      Apidata()
-    })
-    .catch((error) =>{
-      console.log(error);
-    })   
-  }
-  // updata api
-    const editdata = (item,id) => {
-    handleClickOpen(true)
-    console.log(item);
-    setInitialValues({
-      subCatagoryname:item.subCatagoryname,
-      catagoryID:item.catagoryID._id
-    })
-    setEditId(id)
-    
-
-  }
-  //seach apiiiiiiiiii
-  const searchSubcat = (values) => {
-    console.log("search=====>",values);
-    axios.get('https://interviewhub-3ro7.onrender.com/subcatagory/?search=' +values, {
+    axios.get('https://interviewhub-3ro7.onrender.com/subcatagory/', {
       headers: {
         Authorization: token
       }
     })
       .then((res) => {
-        console.log('search =====>',res.data.data)
-        setData(res.data.data
+        console.log(res.data);
+        setData(res.data.data)
+        const data = res.data.data
+        console.log("=====", data.length);
+        localStorage.setItem("Subcate", data.length)
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+  // delete api coliing
+  const deletedata = (id) => {
+    console.log(id);
+    axios.delete('https://interviewhub-3ro7.onrender.com/subcatagory/' + id, {
+      headers: {
+        Authorization: token
+      }
+    })
+      .then((res) => {
+        console.log(res);
+        Apidata()
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+  // updata api
+  const editdata = (item, id) => {
+    handleClickOpen(true)
+    console.log(item);
+    setInitialValues({
+      subCatagoryname: item.subCatagoryname,
+      catagoryID: item.catagoryID._id
+    })
+    setEditId(id)
 
-        )
+
+  }
+  //seach apiiiiiiiiii
+  const searchSubcat = (values) => {
+    console.log("search=====>", values);
+    axios.get("https://interviewhub-3ro7.onrender.com/subcatagory/?search="+values, {
+      headers: {
+        Authorization: token
+      }
+    })
+      .then((res) => {
+        console.log('search =====>', res.data.data)
+        setData(res.data.data)
       })
       .catch((err) => {
         console.log("errer", err)
       })
   }
-  const Search =(e) =>{
-      console.log(e);
-      const value = e.target.value;
-      console.log("search", value);
-      setsearchValues(value);
-      searchSubcat(value);
+  const Search = (e) => {
+    console.log(e);
+    const value = e.target.value;
+    // console.log("search", value);
+    setsearchValues(value);
+    searchSubcat(value);
   }
 
-  const Updatestatus =(e,item) =>{
-    console.log('======>',e.target.checked);
-    console.log('=========+++++>',item);
-    axios.patch('https://interviewhub-3ro7.onrender.com/subcatagory/' +item._id,{
-      'status':e.target.checked ? 'on' : 'off'
+  const Updatestatus = (e, item) => {
+    console.log('======>', e.target.checked);
+    console.log('=========+++++>', item);
+    axios.patch('https://interviewhub-3ro7.onrender.com/subcatagory/' + item._id, {
+      'status': e.target.checked ? 'on' : 'off'
     },
-    {
-      headers: {
-        Authorization: token
-      },
-    })
-    .then((res) => {
-      console.log('suses',res);  
-      Apidata();
-    })
-    .catch((err) => {
-      console.log("errer", err)
-    }) 
-    
+      {
+        headers: {
+          Authorization: token
+        },
+      })
+      .then((res) => {
+        console.log('suses', res);
+        Apidata();
+      })
+      .catch((err) => {
+        console.log("errer", err)
+      })
+
   }
-  
-  
+
+
 
 
   return (
@@ -224,13 +222,13 @@ const Subcategory = () => {
       <Box>
         <div class="demo">
           <div class="demo1">
-            <TextField 
-            type='text'
-            label='Search Subcategory'
-            value={searchValues}
-            onChange={Search}
-            
-             />
+            <TextField
+              type='text'
+              label='Search Subcategory'
+              value={searchValues}
+              onChange={Search}
+
+            />
           </div>
           <div class="demo2">
             <React.Fragment>
@@ -243,58 +241,58 @@ const Subcategory = () => {
                 onSubmit={handleData}
               >
                 {
-                  ({values , setFieldValue}) => (
+                  ({ values, setFieldValue }) => (
                     <BootstrapDialog
-                  onClose={handleClose}
-                  aria-labelledby="customized-dialog-title"
-                  open={open}
-                >
-                  <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                    Add Sub Category
-                  </DialogTitle>
-                  <IconButton
-                    aria-label="close"
-                    onClick={handleClose}
-                    sx={{
-                      position: 'absolute',
-                      right: 8,
-                      top: 8,
-                      color: (theme) => theme.palette.grey[500],
-                    }}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                  <DialogContent dividers>
-                    <Form>
-                      <Field as={TextField} type="text" name="subCatagoryname" label="sub Catagory" variant="outlined"></Field><br /><br />
-                      <FormControl fullWidth>
-                      <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                      <Select
-                       labelId="demo-simple-select-label"
-                       id="demo-simple-select"
-                       name="catagoryID"
-                       label="Catagory"
-                       value={values.catagoryID}
-                      
-                       onChange={(e) => setFieldValue('catagoryID',e.target.value)}
+                      onClose={handleClose}
+                      aria-labelledby="customized-dialog-title"
+                      open={open}
+                    >
+                      <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+                        Add Sub Category
+                      </DialogTitle>
+                      <IconButton
+                        aria-label="close"
+                        onClick={handleClose}
+                        sx={{
+                          position: 'absolute',
+                          right: 8,
+                          top: 8,
+                          color: (theme) => theme.palette.grey[500],
+                        }}
                       >
-                        {
-                          catagory.map((item , index) =>(
-                            <MenuItem value={item._id}>{item.catagoryName}</MenuItem>
-                          ))
-                        }
-                      </Select>
-                      </FormControl>
+                        <CloseIcon />
+                      </IconButton>
+                      <DialogContent dividers>
+                        <Form>
+                          <Field as={TextField} type="text" name="subCatagoryname" label="sub Catagory" variant="outlined"></Field><br /><br />
+                          <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                            <Select
+                              labelId="demo-simple-select-label"
+                              id="demo-simple-select"
+                              name="catagoryID"
+                              label="Catagory"
+                              value={values.catagoryID}
 
-                      <DialogActions>
-                        <Button autoFocus onClick={handleClose}>
-                          <Button type='submit' sx={{ background: '#124256', color: '#fff' }}>Submit</Button>
-                        </Button>
-                      </DialogActions>
-                    </Form>
-                  </DialogContent>
+                              onChange={(e) => setFieldValue('catagoryID', e.target.value)}
+                            >
+                              {
+                                catagory.map((item, index) => (
+                                  <MenuItem value={item._id}>{item.catagoryName}</MenuItem>
+                                ))
+                              }
+                            </Select>
+                          </FormControl>
 
-                </BootstrapDialog>
+                          <DialogActions>
+                            <Button autoFocus onClick={handleClose}>
+                              <Button type='submit' sx={{ background: '#124256', color: '#fff' }}>Submit</Button>
+                            </Button>
+                          </DialogActions>
+                        </Form>
+                      </DialogContent>
+
+                    </BootstrapDialog>
                   )
                 }
               </Formik>
@@ -324,12 +322,12 @@ const Subcategory = () => {
                     {/* <TableCell sx={{ color: '#fff' }}>{item.catagoryID.catagoryName}</TableCell> */}
                     <TableCell sx={{ color: '#fff' }}>{item.catagoryID === 'undefined' ? '' : item.catagoryID.catagoryName}</TableCell>
                     <TableCell sx={{ color: '#fff' }} align="right">
-                      
-                      <FormControlLabel control={<Switch checked={item.status ==='on'} />} 
-                      onChange={(e)=> Updatestatus(e,item,item._id)} />
+
+                      <FormControlLabel control={<Switch checked={item.status === 'on'} />}
+                        onChange={(e) => Updatestatus(e, item, item._id)} />
                     </TableCell>
-                    <TableCell sx={{color:'#fff'}} align="right"><Button onClick={() => deletedata(item._id)}><DeleteIcon sx={{color:'#fff'}} /></Button></TableCell> 
-                    <TableCell sx={{color:'#fff'}} align="right"><Button onClick={() => editdata(item, item._id)} ><CreateIcon sx={{color:'#fff'}} /></Button></TableCell>
+                    <TableCell sx={{ color: '#fff' }} align="right"><Button onClick={() => deletedata(item._id)}><DeleteIcon sx={{ color: '#fff' }} /></Button></TableCell>
+                    <TableCell sx={{ color: '#fff' }} align="right"><Button onClick={() => editdata(item, item._id)} ><CreateIcon sx={{ color: '#fff' }} /></Button></TableCell>
                   </TableRow>
                 ))
               }
@@ -342,3 +340,6 @@ const Subcategory = () => {
 }
 
 export default Subcategory
+
+
+

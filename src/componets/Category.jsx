@@ -182,7 +182,6 @@ const Category = () => {
  }
 /////////////
 //  sub categor status on off
-
  const subcatStat = (id) =>{
       console.log("cateid",id);
       axios.get('https://interviewhub-3ro7.onrender.com/subcatagory',{
@@ -213,8 +212,6 @@ const Category = () => {
       })
       .then((res) => {
             console.log("======success")
-
-
       })
       .catch((err) => {
             console.error("err===>", err)
@@ -328,4 +325,207 @@ const Category = () => {
 
 export default Category
 
+// import React, { useState, useEffect } from 'react';
+// import ResponsiveDrawer from "./Drawer";
+// import Box from '@mui/material/Box';
+// import FormControlLabel from '@mui/material/FormControlLabel';
+// import Table from '@mui/material/Table';
+// import TableBody from '@mui/material/TableBody';
+// import TableCell from '@mui/material/TableCell';
+// import TableContainer from '@mui/material/TableContainer';
+// import TableHead from '@mui/material/TableHead';
+// import TableRow from '@mui/material/TableRow';
+// import Button from '@mui/material/Button';
+// import { styled } from '@mui/material/styles';
+// import Dialog from '@mui/material/Dialog';
+// import DialogTitle from '@mui/material/DialogTitle';
+// import DialogContent from '@mui/material/DialogContent';
+// import DialogActions from '@mui/material/DialogActions';
+// import IconButton from '@mui/material/IconButton';
+// import CloseIcon from '@mui/icons-material/Close';
+// import TextField from '@mui/material/TextField';
+// import { Field, Formik, Form } from 'formik';
+// import axios from 'axios';
+// import Switch from '@mui/material/Switch';
+// import DeleteIcon from '@mui/icons-material/Delete';
+// import CreateIcon from '@mui/icons-material/Create';
+
+// const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+//   '& .MuiDialogContent-root': {
+//     padding: theme.spacing(2),
+//   },
+//   '& .MuiDialogActions-root': {
+//     padding: theme.spacing(1),
+//   },
+// }));
+
+// const Category = () => {
+//   const [open, setOpen] = useState(false);
+//   const [data, setData] = useState([]);
+//   const [initialValues, setInitialValues] = useState({ catagoryName: '' });
+//   const [editId, setEditId] = useState(null);
+//   const [expandedCategory, setExpandedCategory] = useState(null); // State for expanded category
+//   const [subCategories, setSubCategories] = useState([]); // State for subcategories
+
+//   const token = localStorage.getItem('token');
+
+//   useEffect(() => {
+//     fetchCategories();
+//   }, []);
+
+//   const fetchCategories = () => {
+//     axios.get('https://interviewhub-3ro7.onrender.com/catagory/', {
+//       headers: { Authorization: token }
+//     })
+//       .then(res => setData(res.data.data))
+//       .catch(err => console.log(err));
+//   };
+
+//   const handleClickOpen = () => setOpen(true);
+//   const handleClose = () => setOpen(false);
+
+//   const handleData = (values, { resetForm }) => {
+//     if (editId !== null) {
+//       axios.patch(`https://interviewhub-3ro7.onrender.com/catagory/${editId}`, values, {
+//         headers: { Authorization: token }
+//       })
+//         .then(() => {
+//           fetchCategories();
+//           handleClose();
+//         })
+//         .catch(err => console.log(err));
+//     } else {
+//       axios.post('https://interviewhub-3ro7.onrender.com/catagory/create', values, {
+//         headers: { Authorization: token }
+//       })
+//         .then(() => {
+//           fetchCategories();
+//           handleClose();
+//         })
+//         .catch(err => console.log(err));
+//     }
+//     resetForm();
+//   };
+
+//   const deleteCategory = (id) => {
+//     axios.delete(`https://interviewhub-3ro7.onrender.com/catagory/${id}`, {
+//       headers: { Authorization: token }
+//     })
+//       .then(() => fetchCategories())
+//       .catch(err => console.log(err));
+//   };
+
+//   const editCategory = (el, id) => {
+//     handleClickOpen();
+//     setInitialValues({ catagoryName: el.catagoryName });
+//     setEditId(id);
+//   };
+
+//   const toggleSubCategories = (categoryId) => {
+//     if (expandedCategory === categoryId) {
+//       setExpandedCategory(null); // Collapse if already expanded
+//       setSubCategories([]); // Clear subcategories
+//     } else {
+//       setExpandedCategory(categoryId);
+//       fetchSubCategories(categoryId); // Fetch subcategories
+//     }
+//   };
+
+//   const fetchSubCategories = (categoryId) => {
+//     axios.get(`https://interviewhub-3ro7.onrender.com/subcatagory?categoryId=${categoryId}`, {
+//       headers: { Authorization: token }
+//     })
+//       .then(res => setSubCategories(res.data.data))
+//       .catch(err => console.log(err));
+//   };
+
+//   return (
+//     <ResponsiveDrawer>
+//       <Box>
+//         <div className="demo">
+//           <TextField
+//             type="text"
+//             label="Search category"
+//           />
+//           <Button variant="outlined" onClick={handleClickOpen}>
+//             ADD CATEGORY
+//           </Button>
+//           <Formik
+//             initialValues={initialValues}
+//             onSubmit={handleData}
+//           >
+//             <BootstrapDialog
+//               onClose={handleClose}
+//               open={open}
+//             >
+//               <DialogTitle>Add Category</DialogTitle>
+//               <IconButton
+//                 aria-label="close"
+//                 onClick={handleClose}
+//               >
+//                 <CloseIcon />
+//               </IconButton>
+//               <DialogContent dividers>
+//                 <Form>
+//                   <Field as={TextField} name="catagoryName" placeholder="Category" />
+//                   <DialogActions>
+//                     <Button onClick={handleClose}>Cancel</Button>
+//                     <Button type='submit'>Submit</Button>
+//                   </DialogActions>
+//                 </Form>
+//               </DialogContent>
+//             </BootstrapDialog>
+//           </Formik>
+//         </div>
+
+//         <TableContainer>
+//           <Table aria-label="simple table">
+//             <TableHead>
+//               <TableRow>
+//                 <TableCell>No</TableCell>
+//                 <TableCell>Category Name</TableCell>
+//                 <TableCell>Status</TableCell>
+//                 <TableCell>Delete</TableCell>
+//                 <TableCell>Update</TableCell>
+//               </TableRow>
+//             </TableHead>
+//             <TableBody>
+//               {data.map((el, index) => (
+//                 <React.Fragment key={el._id}>
+//                   <TableRow>
+//                     <TableCell>{index + 1}</TableCell>
+//                     <TableCell onClick={() => toggleSubCategories(el._id)} style={{ cursor: 'pointer' }}>
+//                       {el.catagoryName}
+//                     </TableCell>
+//                     <TableCell>
+//                       <FormControlLabel
+//                         control={<Switch checked={el.status === 'on'} />}
+//                         // onChange={(e) => Updatestatus(e, el)}
+//                       />
+//                     </TableCell>
+//                     <TableCell>
+//                       <Button onClick={() => deleteCategory(el._id)}><DeleteIcon /></Button>
+//                     </TableCell>
+//                     <TableCell>
+//                       <Button onClick={() => editCategory(el, el._id)}><CreateIcon /></Button>
+//                     </TableCell>
+//                   </TableRow>
+//                   {expandedCategory === el._id && subCategories.map((sub, subIndex) => (
+//                     <TableRow key={sub._id}>
+//                       <TableCell colSpan={5}>
+//                         {sub.subcategoryName} {/* Assuming subcategory has a 'subcategoryName' field */}
+//                       </TableCell>
+//                     </TableRow>
+//                   ))}
+//                 </React.Fragment>
+//               ))}
+//             </TableBody>
+//           </Table>
+//         </TableContainer>
+//       </Box>
+//     </ResponsiveDrawer>
+//   );
+// };
+
+// export default Category;
 
