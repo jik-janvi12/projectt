@@ -12,7 +12,6 @@ const S = () => {
   const [filteredSubcategories, setFilteredSubcategories] = useState([]);
 
  
-
   useEffect(() => {
     Dataview();
   const categoryId = localStorage.getItem('categoryId');
